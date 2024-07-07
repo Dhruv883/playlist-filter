@@ -1,4 +1,3 @@
-import { PLaylist } from "@/tsInterfaces";
 import { NextApiRequest } from "next";
 import axios from "axios";
 import { baseURL } from "@/variables";

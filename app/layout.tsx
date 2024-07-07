@@ -18,7 +18,7 @@ export default function RootLayout({
     <html lang="en">
       <body className="">
         <Providers>
-          <div className="h-screen font-notoSans">
+          <div className="h-screen font-manRope dark">
             <Navbar />
             {children}
           </div>

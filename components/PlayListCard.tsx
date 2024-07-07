@@ -4,40 +4,42 @@ import { PlayListCardProps } from "@/tsInterfaces";
 
 const PlayListCard: React.FC<PlayListCardProps> = ({ playlist }) => {
   return (
-    <a href={`/playlist/${playlist.id}`} target="_blank">
-      <Card
-        isFooterBlurred
-        radius="lg"
-        className="border-none h-64 w-72 font-notoSans cursor-pointer"
-      >
-        <Image
-          alt=""
-          className="object-cover w-full h-full"
-          src={`${
-            playlist.images
-              ? playlist.images[0]
-              : "https://nextui.org/images/hero-card.jpeg"
-          }`}
-          width={300}
-          height={300}
-        />
-        <CardFooter className="flex-col gap-1 justify-between backdrop-blur-2xl bg-white/5 border-white/20 border-1 overflow-hidden py-1 absolute before:rounded-xl rounded-large bottom-1 w-[calc(100%_-_8px)] shadow-small ml-1 z-10">
-          <div className="w-full text-base text-white/70 overflow-hidden text-ellipsis text-nowrap">
-            {playlist.name}
+    <Card
+      isPressable
+      isFooterBlurred
+      radius="lg"
+      className="border-none h-64 w-72 font-manRope cursor-pointer"
+      onPress={() => {
+        window.location.href = `/playlist/${playlist.id}`;
+      }}
+    >
+      <Image
+        alt=""
+        className="object-cover w-full h-full"
+        src={`${
+          playlist.images
+            ? playlist.images[0]
+            : "https://nextui.org/images/hero-card.jpeg"
+        }`}
+        width={300}
+        height={300}
+      />
+      <CardFooter className="flex-col gap-1 justify-between backdrop-blur-2xl bg-white/5 border-white/20 border-1 overflow-hidden py-1 absolute before:rounded-xl rounded-large bottom-1 w-[calc(100%_-_8px)] shadow-small ml-1 z-10">
+        <div className="w-full text-base text-center text-white/70 overflow-hidden text-ellipsis text-nowrap">
+          {playlist.name}
+        </div>
+        <div className="w-full flex flex-wrap gap-4 items-center justify-between text-sm text-white">
+          <div className="flex items-center gap-2">
+            <UserIcon className="w-4 h-4" />
+            <span>{playlist.owner}</span>
           </div>
-          <div className="w-full flex flex-wrap gap-4 items-center justify-between text-sm text-white">
-            <div className="flex items-center gap-2">
-              <UserIcon className="w-4 h-4" />
-              <span>{playlist.owner}</span>
-            </div>
-            <div className="flex items-center gap-1">
-              <Music2Icon className="w-4 h-4" />
-              <span>{playlist.total} Songs</span>
-            </div>
+          <div className="flex items-center gap-1">
+            <Music2Icon className="w-4 h-4" />
+            <span>{playlist.total} Songs</span>
           </div>
-        </CardFooter>
-      </Card>
-    </a>
+        </div>
+      </CardFooter>
+    </Card>
   );
 };
 

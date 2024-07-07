@@ -1,3 +1,5 @@
+import { color } from "framer-motion";
+
 const { nextui } = require("@nextui-org/react");
 
 /** @type {import('tailwindcss').Config} */
@@ -12,6 +14,11 @@ module.exports = {
     extend: {
       fontFamily: {
         notoSans: ["Noto Sans", "sans-serif"],
+        manRope: ["Manrope", "sans-serif"],
+      },
+      color: {
+        primary: "#1D2123", // dark blue
+        secondary: "#FACD66", //yellow
       },
     },
   },

@@ -4,12 +4,21 @@ import { redirect } from "next/navigation";
 import axios from "axios";
 import { AccessTokenData, PLaylist } from "@/tsInterfaces";
 import PlayListCard from "@/components/PlayListCard";
+import ImportPlaylist from "@/components/ImportPlaylist";
+import { setPlaylistsLocal, fetchPlaylistsLocal } from "@/utils/playlist";
 
 const page = () => {
   const [token, setToken] = useState<AccessTokenData>();
   const [playlists, setPlaylists] = useState<[]>([]);
 
   const fetchPlaylists = async () => {
+    // Fetch from Local Storage
+    const playlistLocal = fetchPlaylistsLocal();
+    if (playlistLocal != null) {
+      setPlaylists(playlistLocal);
+      return;
+    }
+    // Fetch Playlist
     try {
       const response = await axios.get(`/api/playlists`, {
         headers: {
@@ -17,6 +26,7 @@ const page = () => {
         },
       });
 
+      setPlaylistsLocal(response.data);
       setPlaylists(response.data);
     } catch (error) {
       console.log("Error fetching playlists", error);
@@ -35,14 +45,21 @@ const page = () => {
     if (token) fetchPlaylists();
   }, [token]);
 
-  console.log(playlists);
+  useEffect(() => {
+    if (playlists.length > 0) setPlaylistsLocal(playlists);
+  }, [playlists]);
+
+  // console.log(playlists);
 
   return (
-    <div className="h-5/6 w-screen space-y-6 overflow-x-hidden bg-black p-4 text-white gap-10 font-notoSans">
-      <div className="text-center text-4xl">YOUR PLAYLISTS</div>
+    <div className="h-5/6 w-screen space-y-6 overflow-x-hidden bg-black p-4 text-white gap-10 font-manRope">
+      <div className="text-center text-5xl font-semibold tracking-wide relative">
+        Playlists
+        {token && <ImportPlaylist token={token} setPlaylists={setPlaylists} />}
+      </div>
       <div className="flex flex-wrap gap-4 justify-evenly">
-        {playlists?.map((playlist: PLaylist) => {
-          return <PlayListCard playlist={playlist} />;
+        {playlists?.map((playlist: PLaylist, index: number) => {
+          return <PlayListCard playlist={playlist} key={index} />;
         })}
       </div>
     </div>

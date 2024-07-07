@@ -22,3 +22,8 @@ export interface PLaylist {
 export interface PlayListCardProps {
   playlist: PLaylist;
 }
+
+export interface ImportPlaylistPrps {
+  token: AccessTokenData;
+  setPlaylists: Function;
+}
