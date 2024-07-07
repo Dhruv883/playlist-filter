@@ -1,14 +1,7 @@
 import type { Metadata } from "next";
-import { Inter, Roboto } from "next/font/google";
+import { Providers } from "./providers";
+import Navbar from "@/components/Navbar";
 import "./globals.css";
-
-const inter = Inter({ subsets: ["latin"] });
-
-const roboto = Roboto({
-  weight: "400",
-  subsets: ["latin"],
-  display: "swap",
-});
 
 export const metadata: Metadata = {
   title: "SpotiFilter",
@@ -23,7 +16,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={roboto.className}>{children}</body>
+      <body className="">
+        <Providers>
+          <div className="h-screen font-notoSans">
+            <Navbar />
+            {children}
+          </div>
+        </Providers>
+      </body>
     </html>
   );
 }
