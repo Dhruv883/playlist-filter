@@ -6,6 +6,7 @@ import { AccessTokenData, PLaylist } from "@/tsInterfaces";
 import PlayListCard from "@/components/PlayListCard";
 import ImportPlaylist from "@/components/ImportPlaylist";
 import { setPlaylistsLocal, fetchPlaylistsLocal } from "@/utils/playlist";
+import CustomLayout from "@/components/CustomLayout";
 
 const page = () => {
   const [token, setToken] = useState<AccessTokenData>();
@@ -52,17 +53,21 @@ const page = () => {
   // console.log(playlists);
 
   return (
-    <div className="h-5/6 w-screen space-y-6 overflow-x-hidden bg-black p-4 text-white gap-10 font-manRope">
-      <div className="text-center text-5xl font-semibold tracking-wide relative">
-        Playlists
-        {token && <ImportPlaylist token={token} setPlaylists={setPlaylists} />}
+    <CustomLayout>
+      <div className="w-screen space-y-6 overflow-x-hidden bg-black p-4 text-white gap-10 font-manRope">
+        <div className="text-center text-5xl font-semibold tracking-wide relative">
+          Playlists
+          {token && (
+            <ImportPlaylist token={token} setPlaylists={setPlaylists} />
+          )}
+        </div>
+        <div className="flex flex-wrap gap-10 justify-evenly">
+          {playlists?.map((playlist: PLaylist, index: number) => {
+            return <PlayListCard playlist={playlist} key={index} />;
+          })}
+        </div>
       </div>
-      <div className="flex flex-wrap gap-4 justify-evenly">
-        {playlists?.map((playlist: PLaylist, index: number) => {
-          return <PlayListCard playlist={playlist} key={index} />;
-        })}
-      </div>
-    </div>
+    </CustomLayout>
   );
 };
 

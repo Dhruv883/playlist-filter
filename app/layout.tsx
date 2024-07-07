@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { Providers } from "./providers";
-import Navbar from "@/components/Navbar";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -11,18 +10,11 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+}: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en">
-      <body className="">
-        <Providers>
-          <div className="h-screen font-manRope dark">
-            <Navbar />
-            {children}
-          </div>
-        </Providers>
+      <body className="h-screen">
+        <Providers>{children}</Providers>
       </body>
     </html>
   );

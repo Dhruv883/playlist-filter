@@ -33,7 +33,7 @@ const ImportPlaylist: React.FC<ImportPlaylistPrps> = ({
         onPress={onOpen}
         color="warning"
         variant="flat"
-        className="text-xl absolute right-2 top-1 font-manRope text-white"
+        className="absolute right-2 top-1 font-manRope text-xl"
       >
         Import
       </Button>

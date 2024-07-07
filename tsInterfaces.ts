@@ -1,3 +1,5 @@
+import { ReactNode } from "react";
+
 export interface AccessTokenData {
   access_token: string;
   token_type: string;
@@ -26,4 +28,8 @@ export interface PlayListCardProps {
 export interface ImportPlaylistPrps {
   token: AccessTokenData;
   setPlaylists: Function;
+}
+
+export interface CustomLayoutProps {
+  children: ReactNode;
 }
