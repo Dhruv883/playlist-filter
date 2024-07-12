@@ -25,6 +25,7 @@ export async function GET(request: NextApiRequest) {
       tracks: item.tracks.href,
       total: item.tracks.total,
       uri: item.uri,
+      in_collection: true,
     }));
     return Response.json(playlistData);
   } catch (error) {

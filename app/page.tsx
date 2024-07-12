@@ -5,7 +5,7 @@ import Link from "next/link";
 export default function page() {
   return (
     <CustomLayout>
-      <section className="h-full w-full bg-black text-white flex flex-grow items-center justify-center">
+      <section className="h-full w-full bg-primary text-white flex flex-grow items-center justify-center font-manRope">
         <div className="flex flex-col gap-6 justify-center items-center px-2 mb-10 ">
           <div className="space-y-6 text-center">
             <h1 className="text-4xl font-bold tracking-tight sm:text-4xl md:text-5xl xl:text-[3.4rem] 2xl:text-[3.75rem]">

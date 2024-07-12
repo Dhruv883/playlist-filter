@@ -16,9 +16,11 @@ module.exports = {
         notoSans: ["Noto Sans", "sans-serif"],
         manRope: ["Manrope", "sans-serif"],
       },
-      color: {
+      colors: {
         primary: "#1D2123", // dark blue
         secondary: "#FACD66", //yellow
+        lightBlue: "#A4C7C6", //light blue
+        blackGray: "#25292B", //gray
       },
     },
   },

@@ -8,7 +8,7 @@ export interface AccessTokenData {
   expires_in: number;
 }
 
-export interface PLaylist {
+export interface Playlist {
   collaborative: boolean;
   description: string;
   id: string;
@@ -19,10 +19,29 @@ export interface PLaylist {
   tracks: string;
   total: number;
   uri: string;
+  in_collection: string;
+}
+
+export interface Track {
+  image: string;
+  id: string;
+  name: string;
+  popularity: number;
+  preview_url: string;
+  added_at: Date;
+  album: string;
+  artists: Array<string>;
+  duration: number;
+  spotifyURI: string;
+  // acousticness: number;
+  // danceability: number;
+  // energy: number;
+  // liveliness: number;
+  // loudness: number;
 }
 
 export interface PlayListCardProps {
-  playlist: PLaylist;
+  playlist: Playlist;
 }
 
 export interface ImportPlaylistPrps {
@@ -32,4 +51,8 @@ export interface ImportPlaylistPrps {
 
 export interface CustomLayoutProps {
   children: ReactNode;
+}
+
+export interface TrackProps {
+  track: Track;
 }

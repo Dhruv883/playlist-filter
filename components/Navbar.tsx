@@ -10,7 +10,7 @@ const Navbar = () => {
   }, []);
 
   return (
-    <div className="bg-black text-white flex justify-between items-center p-8">
+    <div className="bg-primary text-white flex justify-between items-center p-8 font-manRope">
       <a href="/" className="text-lg sm:text-3xl font-medium tracking-wide">
         Spoti-Filter
       </a>

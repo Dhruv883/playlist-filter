@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import { redirect } from "next/navigation";
 import axios from "axios";
-import { AccessTokenData, PLaylist } from "@/tsInterfaces";
+import { AccessTokenData, Playlist } from "@/tsInterfaces";
 import PlayListCard from "@/components/PlayListCard";
 import ImportPlaylist from "@/components/ImportPlaylist";
 import { setPlaylistsLocal, fetchPlaylistsLocal } from "@/utils/playlist";
@@ -54,7 +54,7 @@ const page = () => {
 
   return (
     <CustomLayout>
-      <div className="w-screen space-y-6 overflow-x-hidden bg-black p-4 text-white gap-10 font-manRope">
+      <div className="min-h-screen w-screen space-y-10 overflow-x-hidden bg-primary p-4 text-white gap-10 font-manRope">
         <div className="text-center text-5xl font-semibold tracking-wide relative">
           Playlists
           {token && (
@@ -62,7 +62,7 @@ const page = () => {
           )}
         </div>
         <div className="flex flex-wrap gap-10 justify-evenly">
-          {playlists?.map((playlist: PLaylist, index: number) => {
+          {playlists?.map((playlist: Playlist, index: number) => {
             return <PlayListCard playlist={playlist} key={index} />;
           })}
         </div>

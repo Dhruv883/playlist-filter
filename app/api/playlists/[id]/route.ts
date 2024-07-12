@@ -32,6 +32,7 @@ export async function GET(
       tracks: playlist.tracks.href,
       total: playlist.tracks.total,
       uri: playlist.uri,
+      in_collection: false,
     };
     return Response.json(playlistData);
   } catch (error) {

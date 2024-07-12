@@ -13,7 +13,7 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en">
-      <body className="h-screen">
+      <body className="h-screen scrollbar-hide">
         <Providers>{children}</Providers>
       </body>
     </html>
