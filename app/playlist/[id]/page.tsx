@@ -1,9 +1,8 @@
 "use client";
-import CustomLayout from "@/components/CustomLayout";
 import axios from "axios";
 import Image from "next/image";
 import { useState, useEffect } from "react";
-import { AccessTokenData, Playlist, Track, TrackProps } from "@/tsInterfaces";
+import { AccessTokenData, Playlist, Track } from "@/tsInterfaces";
 import { redirect } from "next/navigation";
 import TrackCard from "@/components/TrackCard";
 
@@ -12,6 +11,10 @@ const Page = ({ params }: { params: { id: number } }) => {
   const [playlist, setPlaylist] = useState<Playlist>();
   const [tracks, setTracks] = useState<Array<Track>>();
   const playlistId = params.id;
+
+  // FILTERS
+  const [artists, setArtists] = useState<Set<string>>(new Set());
+  const [albums, setAlbums] = useState<Set<string>>(new Set());
 
   const fetchTracks = async () => {
     try {
@@ -46,19 +49,29 @@ const Page = ({ params }: { params: { id: number } }) => {
   useEffect(() => {
     if (token && playlist) fetchTracks();
   }, [token, playlist]);
-  console.log(tracks);
+
+  useEffect(() => {
+    if (tracks) {
+      tracks.forEach((track: Track) => {
+        setArtists((prevArtists) => new Set(prevArtists).add(track.artists[0]));
+        setAlbums((prevAlbums) => new Set(prevAlbums).add(track.album));
+      });
+    }
+  }, [tracks]);
 
   return (
     <div className={`min-h-screen bg-primary text-white p-4 font-manRope`}>
       <div className="mx-12 mt-10">
-        <div className="relative flex items-center space-x-6 ">
-          <Image
-            src={playlist?.images[0]!}
-            alt="Playlist Image"
-            height={350}
-            width={300}
-            className="rounded-lg"
-          />
+        <div className="relative flex items-center space-x-6">
+          <div className="w-2/5 flex justify-center">
+            <Image
+              src={playlist?.images[0]!}
+              alt="Playlist Image"
+              height={250}
+              width={275}
+              className="rounded-lg"
+            />
+          </div>
           <div>
             <h1 className="text-5xl font-bold text-lightBlue">
               {playlist?.name}
@@ -67,8 +80,8 @@ const Page = ({ params }: { params: { id: number } }) => {
               {playlist?.description}
             </p>
             <p className="text-gray-400 mt-2 text-lg">
-              {playlist?.total} songs -{" "}
-              {Math.round((playlist?.total! * 4) / 60)}+ hrs
+              {playlist?.total} track -{" "}
+              {Math.round((playlist?.total! * 3.5) / 60)}+ hrs
             </p>
             {!playlist?.in_collection && (
               <div className="flex space-x-4 mt-4">
@@ -85,6 +98,11 @@ const Page = ({ params }: { params: { id: number } }) => {
             )}
           </div>
         </div>
+        <div className="border my-10">
+          Filters
+          <div></div>
+        </div>
+
         <div className="mt-8">
           <div className="space-y-4">
             {tracks?.map((track, index) => (

@@ -3,7 +3,7 @@ import Image from "next/image";
 import { Tooltip, Button } from "@nextui-org/react";
 
 const TrackCard: React.FC<TrackProps> = ({ track }) => {
-  console.log(track);
+  // console.log(track);
   const convertToMinutes = (milliseconds: number) => {
     const totalSeconds = Math.floor(milliseconds / 1000);
     const minutes = Math.floor(totalSeconds / 60);
