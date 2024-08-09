@@ -5,16 +5,26 @@ import { useState, useEffect } from "react";
 import { AccessTokenData, Playlist, Track } from "@/tsInterfaces";
 import { redirect } from "next/navigation";
 import TrackCard from "@/components/TrackCard";
+import Select from "react-tailwindcss-select";
+import {
+  Option,
+  SelectValue,
+} from "react-tailwindcss-select/dist/components/type";
 
 const Page = ({ params }: { params: { id: number } }) => {
   const [token, setToken] = useState<AccessTokenData>();
   const [playlist, setPlaylist] = useState<Playlist>();
   const [tracks, setTracks] = useState<Array<Track>>();
+  const [filteredTracks, setFilteredTracks] = useState<Array<Track>>();
   const playlistId = params.id;
 
   // FILTERS
   const [artists, setArtists] = useState<Set<string>>(new Set());
   const [albums, setAlbums] = useState<Set<string>>(new Set());
+  const [selectedArtists, setSelectedArtists] = useState<Array<Option>>([]);
+  const [selectedAlbums, setSelectedAlbums] = useState<Array<Option>>([]);
+  const [artistOptions, setArtistOptions] = useState<Array<Option>>([]);
+  const [albumOptions, setAlbumOptions] = useState<Array<Option>>([]);
 
   const fetchTracks = async () => {
     try {
@@ -52,12 +62,61 @@ const Page = ({ params }: { params: { id: number } }) => {
 
   useEffect(() => {
     if (tracks) {
+      setFilteredTracks(tracks);
+
+      const tempArtists = new Set<string>();
+      const tempAlbums = new Set<string>();
+
       tracks.forEach((track: Track) => {
-        setArtists((prevArtists) => new Set(prevArtists).add(track.artists[0]));
-        setAlbums((prevAlbums) => new Set(prevAlbums).add(track.album));
+        tempArtists.add(track.artists[0]);
+        tempAlbums.add(track.album);
       });
+
+      setArtists(tempArtists);
+      setAlbums(tempAlbums);
     }
   }, [tracks]);
+
+  useEffect(() => {
+    const newArtistOptions = Array.from(artists).map((artist) => ({
+      value: artist,
+      label: artist,
+    }));
+    setArtistOptions(newArtistOptions);
+  }, [artists]);
+
+  useEffect(() => {
+    const newAlbumOptions = Array.from(albums).map((album) => ({
+      value: album,
+      label: album,
+    }));
+    setAlbumOptions(newAlbumOptions);
+  }, [albums]);
+
+  const handleArtistChange = (val: SelectValue) => {
+    setSelectedArtists(val as Array<Option>);
+  };
+
+  const handleAlbumChange = (val: SelectValue) => {
+    setSelectedAlbums(val as Array<Option>);
+  };
+
+  const applyFilters = () => {
+    let newFilteredTracks = tracks;
+    if (selectedArtists.length > 0) {
+      const artistNames = selectedArtists.map((artist) => artist.value);
+      newFilteredTracks = newFilteredTracks?.filter((track: Track) => {
+        return track.artists.some((artist) => artistNames.includes(artist));
+      });
+    }
+    if (selectedAlbums.length > 0) {
+      const albumNames = selectedAlbums.map((album) => album.value);
+      newFilteredTracks = newFilteredTracks?.filter((track: Track) => {
+        return albumNames.includes(track.album);
+      });
+    }
+    setFilteredTracks(newFilteredTracks);
+  };
 
   return (
     <div className={`min-h-screen bg-primary text-white p-4 font-manRope`}>
@@ -98,14 +157,59 @@ const Page = ({ params }: { params: { id: number } }) => {
             )}
           </div>
         </div>
-        <div className="border my-10">
-          Filters
-          <div></div>
+        <div className="my-10">
+          <div className="border-2 border-red-500">
+            <Select
+              primaryColor="red"
+              isMultiple={true}
+              isClearable={true}
+              isSearchable={true}
+              value={selectedArtists}
+              onChange={handleArtistChange}
+              options={artistOptions}
+              searchInputPlaceholder="Select Artists"
+              classNames={{
+                list: "flex flex-wrap gap-y-2",
+                menu: "bg-red-500",
+                searchContainer: "bg-red-500",
+                listItem: ({ isSelected }) =>
+                  `block transition duration-200 px-2 py-2 cursor-pointer select-none text-nowrap rounded-2xl w-min ${
+                    isSelected
+                      ? `text-white bg-blue-500`
+                      : `text-gray-500 bg-blue-100 text-blue-500`
+                  }`,
+              }}
+            />
+          </div>
+          <div>
+            <Select
+              primaryColor="red"
+              isMultiple={true}
+              isClearable={true}
+              isSearchable={true}
+              value={selectedAlbums}
+              onChange={handleAlbumChange}
+              options={albumOptions}
+              searchInputPlaceholder="Select Albums"
+              classNames={{
+                list: "flex flex-wrap gap-y-2",
+                menu: "bg-red-500",
+                searchContainer: "bg-red-500",
+                listItem: ({ isSelected }) =>
+                  `block transition duration-200 px-2 py-2 cursor-pointer select-none text-nowrap rounded-2xl w-min ${
+                    isSelected
+                      ? `text-white bg-blue-500`
+                      : `text-gray-500 bg-blue-100 text-blue-500`
+                  }`,
+              }}
+            />
+          </div>
+          <button onClick={applyFilters}>Apply</button>
         </div>
 
         <div className="mt-8">
           <div className="space-y-4">
-            {tracks?.map((track, index) => (
+            {filteredTracks?.map((track, index) => (
               <TrackCard key={index} track={track} />
             ))}
           </div>
