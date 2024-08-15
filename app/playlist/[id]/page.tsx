@@ -103,13 +103,14 @@ const Page = ({ params }: { params: { id: number } }) => {
 
   const applyFilters = () => {
     let newFilteredTracks = tracks;
-    if (selectedArtists.length > 0) {
+
+    if (selectedArtists != null && selectedArtists.length > 0) {
       const artistNames = selectedArtists.map((artist) => artist.value);
       newFilteredTracks = newFilteredTracks?.filter((track: Track) => {
         return track.artists.some((artist) => artistNames.includes(artist));
       });
     }
-    if (selectedAlbums.length > 0) {
+    if (selectedAlbums != null && selectedAlbums.length > 0) {
       const albumNames = selectedAlbums.map((album) => album.value);
       newFilteredTracks = newFilteredTracks?.filter((track: Track) => {
         return albumNames.includes(track.album);
@@ -167,7 +168,7 @@ const Page = ({ params }: { params: { id: number } }) => {
               value={selectedArtists}
               onChange={handleArtistChange}
               options={artistOptions}
-              searchInputPlaceholder="Select Artists"
+              placeholder="Select Artists"
               classNames={{
                 list: "flex flex-wrap gap-y-2",
                 menu: "bg-red-500",
@@ -190,6 +191,7 @@ const Page = ({ params }: { params: { id: number } }) => {
               value={selectedAlbums}
               onChange={handleAlbumChange}
               options={albumOptions}
+              placeholder="Select Albums"
               searchInputPlaceholder="Select Albums"
               classNames={{
                 list: "flex flex-wrap gap-y-2",
